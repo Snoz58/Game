@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1446457720 source:/home/corentin/Documents/Jeu_c++/main.cpp
+	<SFML/Graphics.hpp>
+	<iostream>
+
+1445501717 source:/home/corentin/Documents/Jeu_c++/keymap.cpp
+
