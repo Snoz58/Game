@@ -15,13 +15,13 @@ bool activedcrossdown(int controller){
 
     if (sf::Joystick::getAxisPosition(controller, sf::Joystick::PovY) > 0){
         posdown = 1;
-        cout << "enfoncébas";
+        cout << "enfoncébas\n";
     }
 
     if (sf::Joystick::getAxisPosition(controller, sf::Joystick::PovY) == 0 && posdown){
         posdown = 0;
         active = 1;
-        cout << "activébas";
+        std::cout << "activébas\n";
     }
 
     return active;
@@ -47,28 +47,24 @@ bool activedcrossup(int controller){
 
 int main()
 {
-    // Create the main window
-    sf::RenderWindow app(sf::VideoMode(screenx, screeny), "SFML window");
-    app.setFramerateLimit(10);
+    // Création de la fenêtre
+    sf::RenderWindow app(sf::VideoMode(screenx, screeny), "Game", sf::Style::Fullscreen);
+    app.setFramerateLimit(60); // 60fps
+    app.setMouseCursorVisible(false); // ne pas afficher le curseur
 
-    sf::Mouse mouse;
-
-    sf::Keyboard keyboard;
-
-    // Load a sprite to display
-    sf::Texture texture;
-    if (!texture.loadFromFile("images/fond2.jpg"))
+    // Chargement des textures
+    sf::Texture texture_bg_menu;
+    if (!texture_bg_menu.loadFromFile("images/fond2.jpg")) // background
         return EXIT_FAILURE;
-    sf::Sprite sprite(texture);
+    sf::Sprite sprite(texture_bg_menu);
 
     sf::Vector2i possprite(0,0);
     sf::Texture texture_sprite;
-    if (!texture_sprite.loadFromFile("images/sprites_cool.png"))
+    if (!texture_sprite.loadFromFile("images/sprites_cool.png")) // sprites perso
         return EXIT_FAILURE;
     sf::Sprite sprite1(texture_sprite);
 
-
-    // Charger une police
+    // Chargement des police
     sf::Font font;
     if (!font.loadFromFile("polices/Kraash Black.ttf"))
     {
@@ -81,10 +77,10 @@ int main()
         cout << "can't load Kraash.ttf" << endl;
     }
 
+    // position dans le menu
     int choix = 1;
-    bool down = 0;
 
-    // Création d'un texte
+    // Création des textes
     sf::Text texte_jouer;
     texte_jouer.setFont(font);
     texte_jouer.setString("Jouer");
@@ -100,45 +96,40 @@ int main()
     texte_quitter.setString("Quitter");
     texte_quitter.setPosition(10, screeny / 2 + 120);
 
-cout << sf::Joystick::getButtonCount(0) << " bouttons" << endl;
-
-	// Start the game loop
+    // Boucle principale
     while (app.isOpen())
     {
-        // Process events
+        // Évènements
         sf::Event event;
         while (app.pollEvent(event))
         {
-            // Close window : exit
+
+            // Initialisation du menu
+            texte_jouer.setFont(font);
+            texte_options.setFont(font);
+            texte_quitter.setFont(font);
+
+            // fremeture de la fenêtre
             if (event.type == sf::Event::Closed)
                 app.close();
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && choix > 1 || activedcrossup(0) && choix > 1){
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && choix > 1 || activedcrossup(0) && choix > 1){ // menu haut
                 choix --;
-                cout << choix << endl;
-
-
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && choix < 3 || activedcrossdown(0) && choix < 3){
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && choix < 3 || activedcrossdown(0) && choix < 3){ // menu bas
                 choix ++;
-                cout << choix << endl;
             }
-            // cout << activedcrossdown(0) << endl;
-/*
-            if (sf::Joystick::getAxisPosition(0, sf::Joystick::PovY) > 0)
-                down = 1;
 
-            if (sf::Joystick::getAxisPosition(0, sf::Joystick::PovY) == 0 && choix < 3 && down == 1){
-                choix ++;
-                down = 0;
-                cout << choix << endl;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){ // menu selectionné
+                switch (choix){
+                    case 1 : break;
+                    case 2 : break;
+                    case 3 : app.close(); break;
+                }
             }
-    */
 
-                texte_jouer.setFont(font);
-                texte_options.setFont(font);
-                texte_quitter.setFont(font);
-
+            // Gestion du "hover" sur le menu
             if (choix == 1)
                 texte_jouer.setFont(font2);
 
@@ -162,22 +153,19 @@ cout << sf::Joystick::getButtonCount(0) << " bouttons" << endl;
             }
         sprite1.setTextureRect(sf::IntRect(possprite.x*400, possprite.y * 530, 400, 530));
 
-cout << possprite.x * 400 << " - " << possprite.y * 530 << endl;
-cout << texture_sprite.getSize().x << " - " << texture_sprite.getSize().y << endl;
-//cout << "x = " << possprite.x << " - y = " << possprite.y << endl;
-        // Clear screen
+        // Effacer l'écran
         app.clear();
 
-        // Draw the sprite
+        // Dessiner les sprites
         app.draw(sprite);
         app.draw(sprite1);
 
-        // afficher le texte
+        // Dessiner le texte
         app.draw(texte_jouer);
         app.draw(texte_options);
         app.draw(texte_quitter);
 
-        // Update the window
+        // Afficher les modifications
         app.display();
     }
 

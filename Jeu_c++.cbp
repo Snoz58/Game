@@ -42,6 +42,8 @@
 		<Unit filename="keymap.cpp" />
 		<Unit filename="keymap.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="polices/Kraash Black.ttf" />
+		<Unit filename="polices/Kraash.ttf" />
 		<Extensions>
 			<code_completion />
 			<debugger />
