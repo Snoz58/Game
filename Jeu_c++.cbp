@@ -39,11 +39,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="keymap.cpp" />
-		<Unit filename="keymap.h" />
+		<Unit filename="jeu.cpp" />
+		<Unit filename="jeu.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="polices/Kraash Black.ttf" />
-		<Unit filename="polices/Kraash.ttf" />
+		<Unit filename="menu.cpp" />
+		<Unit filename="menu.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
